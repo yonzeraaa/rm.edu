@@ -1,0 +1,61 @@
+{
+  "name": "educational-platform",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node src/server/index.js\" \"vite --port 8082 --host\"",
+    "build": "vite build",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "npm run setup:firewall && npm run upnp:start && cross-env NODE_ENV=production PORT=3001 HOST=0.0.0.0 DEBUG=app:* concurrently -k \"node src/server/index.js\" \"vite preview --port 8082 --host\" \"node verify-network.js\"",
+    "server": "cross-env PORT=3001 HOST=0.0.0.0 node src/server/index.js",
+    "client": "vite --port 8082 --host",
+    "upnp:start": "node start-upnp.js",
+    "check:ports": "node port-check.js",
+    "setup:firewall": "powershell -ExecutionPolicy Bypass -File setup-firewall.ps1",
+    "verify:network": "node verify-network.js",
+    "dev:external": "npm run setup:firewall && npm run upnp:start && cross-env NODE_ENV=development PORT=3001 HOST=0.0.0.0 DEBUG=app:* concurrently -k \"node src/server/index.js\" \"vite --port 8082 --host --force --clearScreen false\" \"node verify-network.js\"",
+    "start:server": "cross-env PORT=3001 HOST=0.0.0.0 NODE_ENV=production node src/server/index.js",
+    "preview:full": "npm run build && npm run setup:firewall && npm run upnp:start && cross-env NODE_ENV=production PORT=3001 HOST=0.0.0.0 DEBUG=app:* concurrently -k \"npm run start:server\" \"vite preview --port 8082 --host\" \"node verify-network.js\""
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.15",
+    "@mui/material": "^5.14.15",
+    "@prisma/client": "^5.4.2",
+    "axios": "^1.5.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nat-api": "^0.3.1",
+    "plyr": "^3.7.8",
+    "plyr-react": "^5.3.0",
+    "react": "^18.2.0",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^18.2.0",
+    "react-player": "^2.13.0",
+    "react-router-dom": "^6.17.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "debug": "^4.3.7",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "prisma": "^5.4.2",
+    "vite": "^4.4.5"
+  }
+}

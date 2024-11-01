@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  fullName      String
+  whatsapp      String?
+  role          String    @default("STUDENT")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  enrollments   Enrollment[]
+  progress      Progress[]
+  quizResults   QuizResult[]
+  activities    Activity[]
+}
+
+model Course {
+  id           Int         @id @default(autoincrement())
+  code         String      @unique
+  title        String
+  description  String?
+  totalHours   Int        @default(0)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  disciplines  Discipline[]
+  quizzes      Quiz[]
+  enrollments  Enrollment[]
+}
+
+model Discipline {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  order       Int        @default(0)
+  courseId    Int
+  course      Course     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Lesson {
+  id            Int        @id @default(autoincrement())
+  title         String
+  description   String?
+  content       Content?   @relation(fields: [contentId], references: [id])
+  contentId     Int?      
+  duration      Int        @default(0)
+  order         Int        @default(0)
+  disciplineId  Int
+  discipline    Discipline @relation(fields: [disciplineId], references: [id], onDelete: Cascade)
+  progress      Progress[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Content {
+  id          Int      @id @default(autoincrement())
+  type        String   // "VIDEO", "PDF", "IMAGE"
+  url         String
+  filename    String
+  mimeType    String
+  size        Int
+  lesson      Lesson[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Quiz {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  code        String       @unique
+  timeLimit   Int         @default(0)
+  questions   Question[]
+  courseId    Int
+  course      Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  results     QuizResult[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  text        String
+  options     String
+  answer      Int
+  quizId      Int
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Enrollment {
+  id            Int      @id @default(autoincrement())
+  userId        String
+  courseId      Int
+  completedTime Int     @default(0)
+  progress      Float    @default(0)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course        Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, courseId])
+}
+
+model Progress {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  lessonId    Int
+  completed   Boolean  @default(false)
+  watchTime   Int     @default(0)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, lessonId])
+}
+
+model QuizResult {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  quizId      Int
+  score       Float
+  timeSpent   Int     @default(0)
+  answers     String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Activity {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  type      String
+  startTime DateTime @default(now())
+  endTime   DateTime?
+  metadata  String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

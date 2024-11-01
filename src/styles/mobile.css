@@ -1,0 +1,146 @@
+/* Estilos base para todos os dispositivos móveis */
+@media (max-width: 600px) {
+  /* Resets */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Container principal */
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 8px !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Video Player */
+  video {
+    width: 100% !important;
+    height: auto !important;
+    max-height: calc(100vh - 200px) !important;
+  }
+
+  /* Tabs */
+  .MuiTabs-root {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    width: 100% !important;
+  }
+
+  .MuiTab-root {
+    text-transform: none !important;
+    font-weight: 500 !important;
+    min-width: auto !important;
+    padding: 12px !important;
+  }
+
+  /* Lista de conteúdo */
+  .MuiList-root {
+    width: 100% !important;
+    padding: 8px !important;
+  }
+
+  .MuiListItemButton-root {
+    border-radius: 8px !important;
+    margin-bottom: 8px !important;
+    background-color: #fff !important;
+  }
+
+  /* Melhorias de toque */
+  .MuiButtonBase-root {
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+  }
+
+  .MuiListItem-root {
+    padding: 8px 12px !important;
+  }
+
+  .MuiListItemIcon-root {
+    min-width: 40px !important;
+  }
+
+  /* Ajustes de texto */
+  .MuiTypography-root {
+    word-wrap: break-word !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Ajustes de scroll */
+  ::-webkit-scrollbar {
+    width: 0px !important;
+    background: transparent !important;
+  }
+
+  /* Ajustes de animação */
+  * {
+    transition: transform 0.15s ease-out !important;
+  }
+
+  /* Centralização de conteúdo */
+  .MuiContainer-root {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 8px !important;
+  }
+
+  /* AppBar e Toolbar */
+  .MuiAppBar-root {
+    box-shadow: none !important;
+  }
+
+  .MuiToolbar-root {
+    min-height: 56px !important;
+    padding: 0 8px !important;
+  }
+
+  /* Ícones */
+  .MuiSvgIcon-root {
+    font-size: 20px !important;
+  }
+
+  /* Cards e Paper */
+  .MuiCard-root, .MuiPaper-root {
+    margin: 8px 0 !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+  }
+
+  /* Grid */
+  .MuiGrid-container {
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  .MuiGrid-item {
+    padding: 4px !important;
+  }
+
+  /* Imagens */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Ajustes específicos para telas muito pequenas */
+@media (max-width: 360px) {
+  .MuiListItemText-primary {
+    font-size: 14px !important;
+  }
+
+  .MuiListItemIcon-root {
+    min-width: 32px !important;
+  }
+
+  .MuiTab-root {
+    min-width: 0 !important;
+    padding: 6px !important;
+  }
+
+  .container {
+    padding: 4px !important;
+  }
+}
